@@ -58,9 +58,16 @@ const App = () => {
       alert(`${newName} is already added to phonebook`)
     }
     else {
-      setPersons(prev => prev.concat({ name: newName, number: newNumber }));
-      setNewName("");
-      setNewNumber("");
+      const newPerson = { name: newName, number: newNumber }
+      axios.post('http://localhost:3001/persons', newPerson).then((res) => {
+        const newDetails = res.data
+        setPersons(prev => prev.concat(newDetails));
+        setNewName("");
+        setNewNumber("");
+      }).catch(err => {
+        alert(`${err} observed during new user addition`)
+      })
+
     }
   }
 
