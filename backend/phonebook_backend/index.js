@@ -1,8 +1,21 @@
 const express = require("express");
+const morgan = require("morgan");
+
+
 
 const app = express();
 
 app.use(express.json());
+
+// Custom token to log POST body
+morgan.token("body", (req) => {
+    return req.method === "POST" ? JSON.stringify(req.body) : "";
+});
+
+// Morgan logging middleware
+app.use(
+    morgan(":method :url :status :res[content-length] - :response-time ms :body")
+);
 
 let persons = [
     {
@@ -75,4 +88,10 @@ app.get("/info", (req, res) => {
 
 app.listen(3001, () => {
     console.log("Server running on port 3001");
-})  
+})
+
+const unknownEndpoint = (request, response) => {
+    response.status(404).send({ error: 'unknown endpoint' })
+}
+
+app.use(unknownEndpoint)
