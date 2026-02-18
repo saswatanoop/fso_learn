@@ -1,7 +1,9 @@
+require('dotenv').config()
 const express = require("express");
 const morgan = require("morgan");
-
 const cors = require('cors')
+const Person = require("./models/Person");
+
 
 const app = express();
 
@@ -42,7 +44,10 @@ let persons = [
 ]
 
 app.get("/api/persons", (req, res) => {
-    res.json(persons);
+    Person.find({}).then(result => {
+        res.json(result);
+
+    })
 })
 
 app.get("/api/persons/:id", (req, res) => {
@@ -62,19 +67,29 @@ app.post("/api/persons", (req, res) => {
         res.status(400).json({ error: "name or number is missing" });
     }
     else {
-        const exists = persons.some(p => p.name.toLowerCase() === body.name.toLowerCase());
-        if (exists) {
-            res.status(400).json({ error: "name must be unique" });
-        }
-        else {
-            const newPerson = {
-                id: String(Math.max(...persons.map(p => Number(p.id))) + 1),
-                name: body.name,
-                number: body.number
-            }
-            persons.push(newPerson);
-            res.json(newPerson);
-        }
+        const newPerson = new Person({
+            name: body.name,
+            number: body.number
+        })
+        newPerson.save().then(savedPerson => {
+            res.json(savedPerson);
+            console.log(savedPerson);
+        }).catch(err => {
+            res.status(400).json({ error: err.message });
+        })
+        // const exists = persons.some(p => p.name.toLowerCase() === body.name.toLowerCase());
+        // if (exists) {
+        //     res.status(400).json({ error: "name must be unique" });
+        // }
+        // else {
+        //     const newPerson = {
+        //         id: String(Math.max(...persons.map(p => Number(p.id))) + 1),
+        //         name: body.name,
+        //         number: body.number
+        //     }
+        //     persons.push(newPerson);
+        //     res.json(newPerson);
+        // }
     }
 })
 
