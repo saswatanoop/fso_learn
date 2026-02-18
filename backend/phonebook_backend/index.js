@@ -1,10 +1,11 @@
 const express = require("express");
 const morgan = require("morgan");
 
-
+const cors = require('cors')
 
 const app = express();
 
+app.use(cors())
 app.use(express.json());
 
 // Custom token to log POST body
@@ -43,6 +44,7 @@ let persons = [
 app.get("/api/persons", (req, res) => {
     res.json(persons);
 })
+
 app.get("/api/persons/:id", (req, res) => {
     const id = req.params.id;
     const person = persons.find(p => p.id === id);
@@ -53,6 +55,7 @@ app.get("/api/persons/:id", (req, res) => {
         res.status(404).end();
     }
 })
+
 app.post("/api/persons", (req, res) => {
     body = req.body;
     if (!body.name || !body.number) {
@@ -86,8 +89,19 @@ app.get("/info", (req, res) => {
     res.send(info);
 })
 
-app.listen(3001, () => {
-    console.log("Server running on port 3001");
+app.put("/api/persons/:id", (req, res) => {
+    const id = req.params.id;
+    const body = req.body;
+    const person = persons.find(p => p.id === id);
+    console.log(body, id);
+    if (person) {
+        const updatedPerson = { ...person, number: body.number }
+        persons = persons.map(p => p.id === id ? updatedPerson : p);
+        res.json(updatedPerson);
+    }
+    else {
+        res.status(404).end();
+    }
 })
 
 const unknownEndpoint = (request, response) => {
@@ -95,3 +109,8 @@ const unknownEndpoint = (request, response) => {
 }
 
 app.use(unknownEndpoint)
+
+const PORT = process.env.PORT || 3001
+app.listen(PORT, () => {
+    console.log(`Server running on port ${PORT}`)
+})
