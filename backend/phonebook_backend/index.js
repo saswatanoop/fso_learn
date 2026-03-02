@@ -2,7 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const morgan = require('morgan')
 const cors = require('cors')
-const Person = require('./models/Person')
+const Person = require('./models/person')
 
 
 const app = express()
@@ -62,7 +62,9 @@ app.delete('/api/persons/:id', (req, res, next) => {
     .then(() => {
       res.status(204).end()
     })
-    .catch(error => next(error))
+    .catch(error => {
+      next(error)
+    })
 })
 
 app.get('/info', (req, res, next) => {
@@ -98,7 +100,7 @@ const unknownEndpoint = (request, response) => {
 
 app.use(unknownEndpoint)
 
-const errorHandler = (error, request, response) => {
+const errorHandler = (error, request, response, _) => {
   console.error(error.message)
 
   if (error.name === 'CastError') {
@@ -108,12 +110,13 @@ const errorHandler = (error, request, response) => {
     return response.status(400).json({ error: error.message })
   }
   return response.status(500).send({ error: 'internal server error' })
+
 }
 
 // this has to be the last loaded middleware, also all the routes should be registered before this!
 app.use(errorHandler)
 
-const PORT = process.env.PORT || 3001
+const PORT = process.env.PORT
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)
 })

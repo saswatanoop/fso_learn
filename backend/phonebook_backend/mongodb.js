@@ -1,3 +1,5 @@
+
+// This file is not related to backend project, it was used to try out mongodb with mongoose. It can be deleted if not needed anymore.
 const mongoose = require('mongoose')
 
 if (process.argv.length < 3) {

@@ -21,6 +21,7 @@ const personSchema = new mongoose.Schema({
   number: String,
 })
 
+// Customize the JSON output of the Person modelto include 'id' instead of '_id' and to remove '__v' and '_id' fields
 personSchema.set('toJSON', {
   transform: (document, returnedObject) => {
     returnedObject.id = returnedObject._id.toString()
