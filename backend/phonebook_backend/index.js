@@ -40,21 +40,17 @@ app.get('/api/persons/:id', (req, res, next) => {
 
 app.post('/api/persons', (req, res, next) => {
   const body = req.body
-  if (!body.name || !body.number) {
-    res.status(400).json({ error: 'name or number is missing' })
-  }
-  else {
-    const newPerson = new Person({
-      name: body.name,
-      number: body.number
-    })
-    newPerson.save().then(savedPerson => {
-      res.json(savedPerson)
-      console.log(savedPerson)
-    }).catch(err => {
-      next(err)
-    })
-  }
+  const newPerson = new Person({
+    name: body.name,
+    number: body.number
+  })
+  newPerson.save().then(savedPerson => {
+    res.json(savedPerson)
+    console.log(savedPerson)
+  }).catch(err => {
+    next(err)
+  })
+  // }
 })
 
 app.delete('/api/persons/:id', (req, res, next) => {

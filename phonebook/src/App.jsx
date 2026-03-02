@@ -87,7 +87,7 @@ const App = () => {
         setNewNumber("");
         updateNotification(`Added ${newDetails.name}`);
       }).catch(err => {
-        updateNotification(`${err} observed during user creation`, "error");
+        updateNotification(`${err.response.data.error} observed during user creation`, "error");
       })
 
     }

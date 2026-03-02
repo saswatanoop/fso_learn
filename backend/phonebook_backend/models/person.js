@@ -18,7 +18,15 @@ const personSchema = new mongoose.Schema({
     required: [true, 'Name is required'],
     minlength: [3, 'Name should be at least 3 characters long']
   },
-  number: String,
+  number: {
+    type: String,
+    trim: true,
+    validate: {
+      validator: v => /^\d{2,3}-\d+$/.test(v),
+      message: props => `${props.value} is not a valid phone number!`
+    },
+    required: [true, 'User phone number required']
+  },
 })
 
 // Customize the JSON output of the Person modelto include 'id' instead of '_id' and to remove '__v' and '_id' fields
