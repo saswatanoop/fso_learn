@@ -1,0 +1,24 @@
+const blogService = require('./blogs.service')
+
+const getAllBlogs = async (req, res, next) => {
+  try {
+    const blogs = await blogService.getAllBlogs()
+    res.json(blogs)
+  } catch (error) {
+    next(error)
+  }
+}
+
+const createBlog = async (req, res, next) => {
+  try {
+    const blog = await blogService.createBlog(req.body)
+    res.status(201).json(blog)
+  } catch (error) {
+    next(error)
+  }
+}
+
+module.exports = {
+  getAllBlogs,
+  createBlog,
+}

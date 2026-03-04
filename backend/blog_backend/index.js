@@ -1,6 +1,8 @@
+const env = require('./configs/env')
 const app = require('./app')
+const logger = require('./middlewares/logger')
 
-const PORT = 3003
+const PORT = env.PORT
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`)
+  logger.info(`Server running on port ${PORT}`)
 })
