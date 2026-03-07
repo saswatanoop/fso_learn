@@ -43,6 +43,36 @@ describe('Blogs GET API integration tests', () => {
   describe('when there is no blogs saved', () => { })
 })
 
+describe('Blogs POST API integration tests', () => {
+
+  beforeEach(async () => {
+    await Blog.deleteMany({})
+    await Blog.insertMany(sampleBlogs)
+  })
+
+  test('a valid blog can be added', async () => {
+    const newBlog = {
+      title: 'New Blog Post',
+      author: 'John Doe',
+      url: 'https://example.com/new-blog-post',
+      likes: 5
+    }
+
+    const savedBlog = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const response = await api.get('/api/blogs')
+    assert.strictEqual(response.body.length, sampleBlogs.length + 1)
+
+    const { title, author, url, likes } = savedBlog.body
+    assert.deepStrictEqual({ title, author, url, likes }, newBlog)
+  })
+
+})
+
 after(() => {
   mongoose.connection.close()
 })
