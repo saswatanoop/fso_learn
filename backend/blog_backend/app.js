@@ -8,7 +8,7 @@ const blogsRouter = require('./modules/blogs/blogs.routes')
 
 const app = express()
 
-const mongoUrl = env.MONGODB_URL
+const mongoUrl = env.MONGODB_URI
 
 mongoose
   .connect(mongoUrl, { family: 4 })

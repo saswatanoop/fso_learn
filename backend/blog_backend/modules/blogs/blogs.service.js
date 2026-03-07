@@ -11,6 +11,17 @@ const createBlog = async (blogData) => {
   return savedBlog
 }
 
+// Service should catch errors only if it wants to transform them.
+/*
+const createBlog = async (blogData) => {
+  try {
+    const blog = new Blog(blogData)
+    return await blog.save()
+  } catch (error) {
+    throw new Error("Blog creation failed") // new error with a custom message, original error is lost
+  }
+}
+*/
 module.exports = {
   getAllBlogs,
   createBlog,
