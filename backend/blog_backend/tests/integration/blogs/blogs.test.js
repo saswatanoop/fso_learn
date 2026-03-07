@@ -31,6 +31,13 @@ describe('Blogs GET API integration tests', () => {
       assert.strictEqual(response.body.length, sampleBlogs.length)
     })
 
+    test('id field is defined for each blog', async () => {
+      const response = await api.get('/api/blogs')
+      response.body.forEach(blog => {
+        assert.ok(blog.id, 'Blog id is not defined')
+      })
+    })
+
   })
 
   describe('when there is no blogs saved', () => { })
