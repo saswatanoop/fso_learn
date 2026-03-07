@@ -14,6 +14,24 @@ const createBlog = async (blogData) => {
 const deleteBlog = async (id) => {
   await Blog.findByIdAndDelete(id)
 }
+
+const updateBlog = async (id, blogData) => {
+
+  const blog = await Blog.findById(id)
+  if (!blog) {
+    throw new Error('Blog not found')
+  }
+
+  blog.title = blogData.title ?? blog.title
+  blog.author = blogData.author ?? blog.author
+  blog.url = blogData.url ?? blog.url
+  blog.likes = blogData.likes ?? blog.likes
+
+  const updatedBlog = await blog.save()
+  return updatedBlog
+}
+
+// Note: Service functions should not catch errors unless they want to transform them.
 // Service should catch errors only if it wants to transform them.
 /*
 const createBlog = async (blogData) => {
@@ -29,4 +47,5 @@ module.exports = {
   getAllBlogs,
   createBlog,
   deleteBlog,
+  updateBlog,
 }

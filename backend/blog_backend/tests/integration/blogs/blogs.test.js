@@ -126,6 +126,37 @@ describe('Blogs DELETE API integration tests', () => {
 
 })
 
+describe('Blogs PUT API integration tests', () => {
+
+  beforeEach(async () => {
+    await Blog.deleteMany({})
+    await Blog.insertMany(sampleBlogs)
+  })
+
+  test('a blog can be updated', async () => {
+    const blogsAtStart = await api.get('/api/blogs')
+    const blogToUpdate = blogsAtStart.body[0]
+
+    const updatedData = {
+      title: 'Updated Title',
+      author: 'Updated Author',
+      url: 'https://example.com/updated-url',
+      likes: 20
+    }
+
+    const updatedBlog = await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(updatedData)
+      .expect(200)
+      .expect('Content-Type', /application\/json/)
+
+    const { title, author, url, likes, id } = updatedBlog.body
+    assert.deepStrictEqual({ title, author, url, likes }, updatedData)
+    assert.strictEqual(id, blogToUpdate.id, 'Blog ID should not change after update')
+  })
+
+})
+
 after(() => {
   mongoose.connection.close()
 })

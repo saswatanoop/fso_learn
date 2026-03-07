@@ -27,8 +27,18 @@ const deleteBlog = async (req, res, next) => {
   }
 }
 
+const updateBlog = async (req, res, next) => {
+  try {
+    const updatedBlog = await blogService.updateBlog(req.params.id, req.body)
+    res.json(updatedBlog)
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
   getAllBlogs,
   createBlog,
   deleteBlog,
+  updateBlog,
 }
