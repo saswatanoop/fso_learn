@@ -71,6 +71,35 @@ describe('Blogs POST API integration tests', () => {
     assert.deepStrictEqual({ title, author, url, likes }, newBlog)
   })
 
+  test('if the likes property is missing from the request, it will default to the value 0', async () => {
+    const newBlog = {
+      title: 'Blog Without Likes',
+      author: 'John Doe',
+      url: 'https://example.com/blog-without-likes'
+    }
+
+    const savedBlog = await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(201)
+      .expect('Content-Type', /application\/json/)
+
+    const { title, author, url, likes } = savedBlog.body
+    assert.deepStrictEqual({ title, author, url, likes }, { ...newBlog, likes: 0 })
+  })
+
+  test('blog without title and url is not added', async () => {
+    const newBlog = { author: 'John Doe' }
+
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect(400)
+
+    const response = await api.get('/api/blogs')
+    assert.strictEqual(response.body.length, sampleBlogs.length)
+  })
+
 })
 
 after(() => {
