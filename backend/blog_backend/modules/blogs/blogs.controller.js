@@ -18,7 +18,17 @@ const createBlog = async (req, res, next) => {
   }
 }
 
+const deleteBlog = async (req, res, next) => {
+  try {
+    await blogService.deleteBlog(req.params.id)
+    res.status(204).end()
+  } catch (error) {
+    next(error)
+  }
+}
+
 module.exports = {
   getAllBlogs,
   createBlog,
+  deleteBlog,
 }

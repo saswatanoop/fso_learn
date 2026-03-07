@@ -11,6 +11,9 @@ const createBlog = async (blogData) => {
   return savedBlog
 }
 
+const deleteBlog = async (id) => {
+  await Blog.findByIdAndDelete(id)
+}
 // Service should catch errors only if it wants to transform them.
 /*
 const createBlog = async (blogData) => {
@@ -25,4 +28,5 @@ const createBlog = async (blogData) => {
 module.exports = {
   getAllBlogs,
   createBlog,
+  deleteBlog,
 }

@@ -102,6 +102,30 @@ describe('Blogs POST API integration tests', () => {
 
 })
 
+describe('Blogs DELETE API integration tests', () => {
+
+  beforeEach(async () => {
+    await Blog.deleteMany({})
+    await Blog.insertMany(sampleBlogs)
+  })
+
+  test('a blog can be deleted', async () => {
+    const blogsAtStart = await api.get('/api/blogs')
+    const blogToDelete = blogsAtStart.body[0]
+
+    await api
+      .delete(`/api/blogs/${blogToDelete.id}`)
+      .expect(204)
+
+    const blogsAtEnd = await api.get('/api/blogs')
+    assert.strictEqual(blogsAtEnd.body.length, sampleBlogs.length - 1)
+
+    const titles = blogsAtEnd.body.map(b => b.title)
+    assert.ok(!titles.includes(blogToDelete.title), 'Deleted blog title is still present in the database')
+  })
+
+})
+
 after(() => {
   mongoose.connection.close()
 })
