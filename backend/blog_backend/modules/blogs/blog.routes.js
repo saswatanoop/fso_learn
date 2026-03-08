@@ -1,5 +1,5 @@
 const blogsRouter = require('express').Router()
-const blogController = require('./blogs.controller')
+const blogController = require('./blog.controller')
 
 blogsRouter.get('/', blogController.getAllBlogs)
 blogsRouter.post('/', blogController.createBlog)

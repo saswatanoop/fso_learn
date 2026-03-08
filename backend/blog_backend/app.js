@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const env = require('./configs/env')
 const unknownEndpoint = require('./middlewares/unknownEndpoints')
 const errorHandler = require('./middlewares/errorHandler')
-const blogsRouter = require('./modules/blogs/blogs.routes')
+const blogsRouter = require('./modules/blogs/blog.routes')
 
 const app = express()
 

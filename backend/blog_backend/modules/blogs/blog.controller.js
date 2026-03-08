@@ -1,4 +1,4 @@
-const blogService = require('./blogs.service')
+const blogService = require('./blog.service')
 
 const getAllBlogs = async (req, res, next) => {
   try {

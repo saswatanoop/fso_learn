@@ -4,7 +4,7 @@ const supertest = require('supertest')
 const mongoose = require('mongoose')
 
 const app = require('../../../app')
-const Blog = require('../../../modules/blogs/blogs.models')
+const Blog = require('../../../modules/blogs/blog.model')
 const { sampleBlogs } = require('./blogs_helper')
 
 
