@@ -1,18 +1,8 @@
 
-const Header = ({ course }) => {
-    return <h1>{course}</h1>
-}
-const Content = ({ contents }) => {
-    return contents.map(content => <Part key={content.id} name={content.name} exercises={content.exercises} />)
+import { Total } from "./Total.jsx"
+import { Content } from "./Content.jsx"
+import { Header } from "./Header.jsx"
 
-}
-const Part = ({ name, exercises }) => {
-    return (<p>{name} {exercises}</p>
-    )
-}
-const Total = ({ exercises }) => {
-    return <p><b> Total of {exercises} exercises </b></p>
-}
 
 export const Course = ({ course }) => {
     return <>
