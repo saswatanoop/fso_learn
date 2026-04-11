@@ -14,7 +14,7 @@ const Total = ({ exercises }) => {
     return <p><b> Total of {exercises} exercises </b></p>
 }
 
-const Course = ({ course }) => {
+export const Course = ({ course }) => {
     return <>
         <Header course={course.name} />
         <Content contents={course.parts} />
@@ -22,4 +22,3 @@ const Course = ({ course }) => {
     </>
 }
 
-export default Course;
