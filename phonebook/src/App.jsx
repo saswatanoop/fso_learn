@@ -96,17 +96,19 @@ export const App = () => {
     }
   }
 
-  const handleRemovePerson = (id) => {
+  const handleRemovePerson = async (id) => {
     const person = persons.find(p => p.id === id);
-
     if (window.confirm(`Delete ${person.name}?`)) {
-      personService.removePerson(id).then(() => {
+      try {
+        await personService.removePerson(id);
         setPersons(prev => prev.filter(p => p.id !== id));
-      }).catch(err => {
+        updateNotification(`Deleted ${person.name}`);
+      } catch (err) {
         updateNotification(`${err} observed during user deletion`, "error");
-      })
+      }
     }
   }
+
   const listPersons = newFilter ? persons.filter(person => person.name.toLowerCase().includes(newFilter.toLowerCase())) : persons
 
   return (

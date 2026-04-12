@@ -11,8 +11,9 @@ const createPerson = (person) => {
     return axios.post(baseURLPersons, person).then(res => res.data)
 }
 
-const removePerson = (id) => {
-    return axios.delete(`${baseURLPersons}/${id}`)
+const removePerson = async (id) => {
+    console.log(`Deleting person with id: ${id}`);
+    await axios.delete(`${baseURLPersons}/${id}`);
 }
 
 const updatePerson = (id, person) => {
