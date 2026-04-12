@@ -2,8 +2,9 @@ import axios from 'axios'
 const baseURLPersons = '/api/persons'
 
 
-const getAllPersons = () => {
-    return axios.get(baseURLPersons).then(res => res.data)
+const getAllPersons = async () => {
+    const res = await axios.get(baseURLPersons)
+    return res.data
 }
 
 const createPerson = (person) => {

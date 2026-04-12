@@ -41,9 +41,12 @@ export const App = () => {
   const [notification, setNotification] = useState({ message: '', type: '' });
 
   useEffect(() => {
-    personService.getAllPersons().then((data) => {
-      setPersons(data)
-    })
+
+    const fetchPersons = async () => {
+      const data = await personService.getAllPersons();
+      setPersons(data);
+    }
+    fetchPersons();
   }, []);
 
   const handleInputName = (event) => {
