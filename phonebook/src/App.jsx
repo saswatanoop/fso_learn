@@ -65,34 +65,37 @@ export const App = () => {
       setNotification({ message: '', type: '' });
     }, 5000);
   }
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
     const exists = persons.some(person => person.name.toLowerCase() === newName.toLowerCase());;
     if (exists) {
       const person = persons.find(p => p.name.toLowerCase() === newName.toLowerCase());
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
         const updatedPerson = { ...person, number: newNumber }
-        personService.updatePerson(person.id, updatedPerson).then((data) => {
+        try {
+          const data = await personService.updatePerson(person.id, updatedPerson);
           setPersons(prev => prev.map(p => p.id === person.id ? data : p));
           setNewName("");
           setNewNumber("");
-        }).catch(err => {
+        } catch (err) {
           updateNotification(`${err} observed during user update`, "error");
-        })
+        }
       }
     }
     else {
       const newPerson = { name: newName, number: newNumber }
-      personService.createPerson(newPerson).then((data) => {
+
+      try {
+        const data = await personService.createPerson(newPerson);
         const newDetails = data
         setPersons(prev => prev.concat(newDetails));
         setNewName("");
         setNewNumber("");
         updateNotification(`Added ${newDetails.name}`);
-      }).catch(err => {
+      } catch (err) {
+        console.error("Test:", err);
         updateNotification(`${err.response.data.error} observed during user creation`, "error");
-      })
-
+      }
     }
   }
 

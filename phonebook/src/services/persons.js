@@ -7,8 +7,10 @@ const getAllPersons = async () => {
     return res.data
 }
 
-const createPerson = (person) => {
-    return axios.post(baseURLPersons, person).then(res => res.data)
+const createPerson = async (person) => {
+    const res = await axios.post(baseURLPersons, person);
+    return res.data
+    // return axios.post(baseURLPersons, person).then(res => res.data)
 }
 
 const removePerson = async (id) => {
@@ -16,8 +18,10 @@ const removePerson = async (id) => {
     await axios.delete(`${baseURLPersons}/${id}`);
 }
 
-const updatePerson = (id, person) => {
-    return axios.put(`${baseURLPersons}/${id}`, person).then(res => res.data)
+const updatePerson = async (id, person) => {
+    const res = await axios.put(`${baseURLPersons}/${id}`, person);
+    return res.data
+    // return axios.put(`${baseURLPersons}/${id}`, person).then(res => res.data)
 }
 
 
